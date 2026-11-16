@@ -1,4 +1,4 @@
-name: Reloj del publicador
+name: Reloj del publicador  # Grupo Cañitas
 
 # Este repositorio es público, así que GitHub sí ejecuta aquí las tareas programadas gratis.
 # Cada 10 minutos le dice al repositorio privado canitas-publicador que publique lo que toque.
