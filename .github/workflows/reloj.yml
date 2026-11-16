@@ -1,0 +1,25 @@
+name: Reloj del publicador
+
+# Este repositorio es público, así que GitHub sí ejecuta aquí las tareas programadas gratis.
+# Cada 10 minutos le dice al repositorio privado canitas-publicador que publique lo que toque.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  avisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Lanzar el publicador
+        env:
+          TOKEN: ${{ secrets.DISPATCH_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then echo "Falta el secreto DISPATCH_TOKEN"; exit 1; fi
+          curl -sS -f -X POST \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/canitasgastro/canitas-publicador/actions/workflows/publicar.yml/dispatches \
+            -d '{"ref":"main","inputs":{"modo":"publicar"}}'
+          echo "publicador lanzado"
